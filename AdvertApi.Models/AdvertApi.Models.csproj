@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Company>None</Company>
+    <Authors>AdvertApi</Authors>
+    <Product>Web Advert Microservices</Product>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageId>WebAdvertModels</PackageId>
   </PropertyGroup>
 
 </Project>

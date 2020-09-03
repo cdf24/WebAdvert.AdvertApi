@@ -6,16 +6,19 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
+using System.Security.Cryptography.X509Certificates;
 
 namespace AdvertApi.Services
 {
     public class DynamoDBAdvertStorage : IAdvertStorageService
     {
         private readonly IMapper _mapper;
+        private readonly IAmazonDynamoDB _client;
 
-        public DynamoDBAdvertStorage(IMapper mapper)
+        public DynamoDBAdvertStorage(IMapper mapper, IAmazonDynamoDB client)
         {
             _mapper = mapper;
+            _client = client;
         }
 
         public async Task<string> AddAsync(AdvertModel model)
@@ -71,9 +74,25 @@ namespace AdvertApi.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> CheckHealthAsync()
+        public async Task<bool> CheckHealthAsync()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            Console.WriteLine("Health checking...");
+
+            //using (var client = new AmazonDynamoDBClient())
+            //{
+            //    var tableData = await client.DescribeTableAsync("Adverts");
+
+            //    return string.Compare(tableData.Table.TableStatus, "active", true) == 0;
+            //}
+
+            using (var context = new DynamoDBContext(_client))
+
+            {
+                var tableData = await _client.DescribeTableAsync("Adverts");
+
+                return tableData.Table.TableStatus == TableStatus.ACTIVE;
+            }
         }
 
         public Task<List<AdvertModel>> GetAllAsync()
