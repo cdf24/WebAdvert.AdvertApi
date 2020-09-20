@@ -1,5 +1,0 @@
-version: 0.0
-OS: windows
-files:
-  - source: AdvertApi
-  destination: C:\inetpub\wwwroot
